@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VØID Systems — Verificação</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#000;font-family:'Inter',-apple-system,sans-serif;color:#fff;overflow:hidden}
+
+    canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0}
+
+    .container{position:relative;z-index:1;width:100%;max-width:420px;padding:20px}
+
+    .card{background:rgba(10,10,10,.85);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:36px 32px;backdrop-filter:blur(12px);animation:fadeUp .6s ease}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+    .card-header{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+    .logo{font-size:1.6rem;font-weight:700;letter-spacing:4px;color:#fff}
+    .badge{font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;padding:4px 10px;border-radius:20px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.5)}
+    .success-badge{background:rgba(255,255,255,.1);color:#fff}
+    .error-badge{background:rgba(255,255,255,.1);color:#ff4444}
+
+    .divider{height:1px;background:rgba(255,255,255,.06);margin-bottom:24px}
+
+    h1{font-size:1.2rem;font-weight:600;color:#fff;margin-bottom:10px}
+    .desc{font-size:.85rem;color:rgba(255,255,255,.4);line-height:1.6;margin-bottom:24px}
+    .highlight{color:#fff;font-weight:600}
+
+    .features{display:flex;flex-direction:column;gap:12px;margin-bottom:28px}
+    .feature{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:10px;transition:border-color .2s}
+    .feature:hover{border-color:rgba(255,255,255,.15)}
+    .feature-icon{display:flex;align-items:center;justify-content:center;width:32px;height:32px;flex-shrink:0;margin-top:1px}
+    .feature-icon svg{width:18px;height:18px;stroke:rgba(255,255,255,.5);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+    .feature strong{display:block;font-size:.78rem;font-weight:600;color:rgba(255,255,255,.85);margin-bottom:2px}
+    .feature p{font-size:.72rem;color:rgba(255,255,255,.3);line-height:1.4}
+
+    .btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:14px;background:#fff;color:#000;text-decoration:none;border-radius:10px;font-size:.85rem;font-weight:600;font-family:inherit;border:none;cursor:pointer;transition:all .2s}
+    .btn:hover{background:rgba(255,255,255,.9);transform:translateY(-1px);box-shadow:0 4px 24px rgba(255,255,255,.1)}
+    .btn svg{opacity:.7}
+
+    .btn-retry{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.15)}
+    .btn-retry:hover{background:rgba(255,255,255,.05);box-shadow:none}
+
+    .footer-text{text-align:center;font-size:.65rem;color:rgba(255,255,255,.2);margin-top:16px}
+
+    .status-icon{text-align:center;margin-bottom:16px}
+    .status-icon svg{width:48px;height:48px;stroke:#fff;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+    .success-anim{animation:pop .4s ease}
+    @keyframes pop{0%{transform:scale(.5);opacity:0}70%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+
+    .success-box{display:flex;align-items:center;gap:10px;padding:14px 16px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:10px}
+    .success-box svg{width:18px;height:18px;stroke:rgba(255,255,255,.5);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+    .success-box p{font-size:.78rem;color:rgba(255,255,255,.35)}
+
+    .hidden{display:none!important}
+    @media(max-width:480px){.card{padding:28px 20px}}
+  </style>
+</head>
+<body>
+  <canvas id="stars"></canvas>
+
+  <div class="container">
+    <div id="state-waiting" class="card">
+      <div class="card-header">
+        <div class="logo">VØID</div>
+        <span class="badge">Systems</span>
+      </div>
+      <div class="divider"></div>
+      <h1>Verificação de Identidade</h1>
+      <p class="desc">Para acessar o servidor, conecte sua conta Discord. Seus dados são protegidos com criptografia de ponta.</p>
+      <div class="features">
+        <div class="feature">
+          <span class="feature-icon"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+          <div><strong>Segurança</strong><p>Autenticação OAuth2 oficial do Discord</p></div>
+        </div>
+        <div class="feature">
+          <span class="feature-icon"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+          <div><strong>Instantâneo</strong><p>Acesso liberado em segundos</p></div>
+        </div>
+        <div class="feature">
+          <span class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+          <div><strong>Privacidade</strong><p>Seus dados nunca são compartilhados</p></div>
+        </div>
+      </div>
+      <a href="/auth/discord" class="btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+        Verificar com Discord
+      </a>
+      <p class="footer-text">Ao continuar, você concorda com nossos termos de uso.</p>
+    </div>
+
+    <div id="state-success" class="card hidden">
+      <div class="card-header">
+        <div class="logo">VØID</div>
+        <span class="badge success-badge">Verificado</span>
+      </div>
+      <div class="divider"></div>
+      <div class="status-icon success-anim"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+      <h1>Verificação Concluída</h1>
+      <p class="desc">Bem-vindo, <span id="username" class="highlight"></span>! Você foi adicionado ao servidor e recebeu seu cargo automaticamente.</p>
+      <div class="success-box">
+        <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <p>Agora você pode fechar esta página e voltar ao Discord.</p>
+      </div>
+    </div>
+
+    <div id="state-error" class="card hidden">
+      <div class="card-header">
+        <div class="logo">VØID</div>
+        <span class="badge error-badge">Erro</span>
+      </div>
+      <div class="divider"></div>
+      <div class="status-icon"><svg viewBox="0 0 24 24" style="stroke:rgba(255,255,255,.6)"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div>
+      <h1>Falha na Autenticação</h1>
+      <p class="desc" id="error-msg">Ocorreu um erro durante o processo.</p>
+      <a href="/auth/discord" class="btn btn-retry">Tentar Novamente</a>
+    </div>
+  </div>
+
+  <script>
+    // Stars background
+    (function(){
+      var c=document.getElementById('stars'),x=c.getContext('2d');
+      var stars=[];var count=200;
+      function resize(){c.width=window.innerWidth;c.height=window.innerHeight}
+      window.addEventListener('resize',resize);resize();
+      for(var i=0;i<count;i++){
+        stars.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*1.5+.3,speed:Math.random()*.3+.05,opacity:Math.random()*.6+.2});
+      }
+      function draw(){
+        x.clearRect(0,0,c.width,c.height);
+        for(var i=0;i<stars.length;i++){
+          var s=stars[i];
+          s.y-=s.speed;
+          if(s.y<-2){s.y=c.height+2;s.x=Math.random()*c.width}
+          // Twinkle
+          s.opacity+=((Math.random()-.5)*.02);
+          if(s.opacity<.1)s.opacity=.1;
+          if(s.opacity>.8)s.opacity=.8;
+          x.beginPath();
+          x.arc(s.x,s.y,s.r,0,Math.PI*2);
+          x.fillStyle='rgba(255,255,255,'+s.opacity+')';
+          x.fill();
+        }
+        requestAnimationFrame(draw);
+      }
+      draw();
+    })();
+
+    // App logic
+    document.addEventListener('DOMContentLoaded',function(){
+      var p=new URLSearchParams(window.location.search);
+      var s=p.get('status');
+      if(!s)return;
+      var w=document.getElementById('state-waiting');
+      var ok=document.getElementById('state-success');
+      var er=document.getElementById('state-error');
+      if(s==='success'){w.classList.add('hidden');ok.classList.remove('hidden');document.getElementById('username').textContent=decodeURIComponent(p.get('user')||'Usuário')}
+      else if(s==='error'){w.classList.add('hidden');er.classList.remove('hidden');var m=p.get('msg');var ms={auth_denied:'Você cancelou a autenticação.',invalid_state:'Sessão expirada. Tente novamente.',server_error:'Erro interno. Tente mais tarde.'};document.getElementById('error-msg').textContent=ms[m]||'Erro inesperado.'}
+      window.history.replaceState({},'','/');
+    });
+  </script>
+</body>
+</html>
