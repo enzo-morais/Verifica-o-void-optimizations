@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, SlashCommandBuilder, REST, Routes } = require('discord.js');
+const { Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, SlashCommandBuilder, REST, Routes, TextDisplayBuilder, SeparatorBuilder, SeparatorSpacingSize, MediaGalleryBuilder, MediaGalleryItemBuilder, ContainerBuilder, MessageFlags } = require('discord.js');
 const { addUserToGuild } = require('../services/multiGuild');
 const { getUser, getAllUsers } = require('../services/userService');
 
@@ -6,29 +6,57 @@ const client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers],
 });
 
-function buildVerifyEmbed(guild) {
+function buildVerifyComponents() {
   const siteURL = process.env.REDIRECT_URI.replace('/callback', '');
-  const embed = new EmbedBuilder()
-    .setColor(0x2b2d31)
-    .setAuthor({ name: '🔑 // Mensagem de Autenticação — VØID Systems' })
-    .setThumbnail(guild?.iconURL({ dynamic: true, size: 128 }) || null)
-    .setDescription(
-      `Bem-vindo à **VØID Systems**, a sua central de tecnologia e automação avançada para Discord!\n\n` +
-      `Para acessar nossos sistemas exclusivos e gerenciar seus bots com total segurança, é necessário realizar a autenticação.\n\n` +
-      `• **Por que autenticar?**\n\n` +
-      `**Segurança Avançada:** Garante uma experiência personalizada e protege seus dados dentro da nossa infraestrutura.\n\n` +
-      `**Acesso Total:** Permite gerenciar seus bots, configurar tickets e visualizar estatísticas em tempo real.\n\n` +
-      `• **Segurança e Privacidade** A **VØID Systems** preza pela transparência. Seus dados são processados de forma criptografada e nunca serão compartilhados.\n\n` +
-      `✨ **Clique em "Autorizar" para prosseguir e explorar o ecossistema VØID.**`
-    );
-  const row = new ActionRowBuilder().addComponents(
-    new ButtonBuilder()
-      .setLabel('Verifique-se')
-      .setStyle(ButtonStyle.Link)
-      .setEmoji('☑️')
-      .setURL(`${siteURL}/auth/discord`)
-  );
-  return { embed, row };
+  return [
+    new ContainerBuilder()
+      .addTextDisplayComponents(
+        new TextDisplayBuilder().setContent("## <:void:1461814125087953168> Verificação - VØID Systems  "),
+      )
+      .addSeparatorComponents(
+        new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Large).setDivider(true),
+      )
+      .addTextDisplayComponents(
+        new TextDisplayBuilder().setContent("Bem-vindo à **VØID Systems**, a sua central de tecnologia e automação avançada para Discord!\n\nPara acessar nossos sistemas exclusivos e gerenciar seus bots com total segurança, é necessário realizar a autenticação."),
+      )
+      .addSeparatorComponents(
+        new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Large).setDivider(true),
+      )
+      .addTextDisplayComponents(
+        new TextDisplayBuilder().setContent("## • Por que autenticar?\n\n**Segurança Avançada:** Garante uma experiência personalizada e protege seus dados dentro da nossa infraestrutura.\n"),
+      )
+      .addSeparatorComponents(
+        new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Large).setDivider(true),
+      )
+      .addTextDisplayComponents(
+        new TextDisplayBuilder().setContent("\n## • Segurança e Privacidade\n\nA **VØID Systems** preza pela transparência. Seus dados são processados de forma criptografada e nunca serão compartilhados."),
+      )
+      .addSeparatorComponents(
+        new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Large).setDivider(true),
+      )
+      .addTextDisplayComponents(
+        new TextDisplayBuilder().setContent("  • *Clique em **\"Verifique-se\"** para prosseguir e explorar o ecossistema VØID.*"),
+      )
+      .addSeparatorComponents(
+        new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Large).setDivider(true),
+      )
+      .addMediaGalleryComponents(
+        new MediaGalleryBuilder().addItems(
+          new MediaGalleryItemBuilder().setURL("https://cdn.discordapp.com/attachments/1456775983091814451/1465858030544617564/barrinha_void_roupas.gif?ex=69d24dec&is=69d0fc6c&hm=8fe71a5fd45b3ea9a06a85d47d859b95e30a3eb7a76a3f1319019f460d7ddaca&"),
+        ),
+      )
+      .addSeparatorComponents(
+        new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Large).setDivider(true),
+      )
+      .addActionRowComponents(
+        new ActionRowBuilder().addComponents(
+          new ButtonBuilder()
+            .setStyle(ButtonStyle.Link)
+            .setLabel("<:void:1461814125087953168> Verifique-se")
+            .setURL(`${siteURL}/auth/discord`),
+        ),
+      ),
+  ];
 }
 
 async function sendVerifyMessage() {
@@ -38,13 +66,13 @@ async function sendVerifyMessage() {
     const channel = await client.channels.fetch(channelId);
     if (!channel || !channel.isTextBased()) return;
     const messages = await channel.messages.fetch({ limit: 50 });
-    const existing = messages.find(m => m.author.id === client.user.id && m.embeds.length > 0);
+    const existing = messages.find(m => m.author.id === client.user.id && m.components.length > 0);
     if (existing) {
       console.log('Mensagem de verificação já existe. Pulando.');
       return;
     }
-    const { embed, row } = buildVerifyEmbed(channel.guild);
-    await channel.send({ embeds: [embed], components: [row] });
+    const components = buildVerifyComponents();
+    await channel.send({ components, flags: MessageFlags.IsComponentsV2 });
     console.log('Mensagem de verificação enviada!');
   } catch (err) {
     console.error('Erro ao enviar verificação:', err.message);
