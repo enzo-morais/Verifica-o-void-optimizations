@@ -74,18 +74,21 @@ async function sendVerifyLog(userData, ip, userAgent) {
     const botUser = client.user;
 
     const embed = new EmbedBuilder()
-      .setColor(0x2b2d31)
+      .setColor(0xffffff)
       .setAuthor({ name: 'Usuário Verificado', iconURL: botUser.displayAvatarURL() })
       .setDescription('Detalhes da verificação do usuário abaixo.')
       .addFields(
         { name: 'Usuário', value: `<@${userData.id}>\n(\`${userData.username}\`)`, inline: true },
         { name: 'Dias no Discord', value: `\`${daysOnDiscord}\``, inline: true },
+        { name: '\u200b', value: '\u200b', inline: true },
         { name: 'Endereço IP', value: `1. \`${cleanIP}\``, inline: false },
         { name: 'Localização', value: `1. ${flag} ${geo.city} — ${geo.region} — ${geo.country}`, inline: false },
         { name: 'Dispositivo', value: `\`${browser}\``, inline: true },
         { name: 'Autenticador', value: `<@${botUser.id}>\n(\`${botUser.id}\`)`, inline: true },
+        { name: '\u200b', value: '\u200b', inline: true },
         { name: 'Servidor', value: `\`${guildName} (${guildId})\``, inline: false },
       )
+      .setImage('https://cdn.discordapp.com/attachments/1456775983091814451/1465858030544617564/barrinha_void_roupas.gif?ex=69d24dec&is=69d0fc6c&hm=8fe71a5fd45b3ea9a06a85d47d859b95e30a3eb7a76a3f1319019f460d7ddaca&')
       .setFooter({ text: `Verificação automatizada • Hoje às ${time}` })
       .setTimestamp();
 
