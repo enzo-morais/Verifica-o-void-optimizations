@@ -11,13 +11,13 @@ function buildVerifyComponents() {
   return [
     new ContainerBuilder()
       .addTextDisplayComponents(
-        new TextDisplayBuilder().setContent("## <:void:1461814125087953168> Verificação - VØID Systems  "),
+        new TextDisplayBuilder().setContent("## <:void:1497296993427521762> Verificação - VØID Optimizations  "),
       )
       .addSeparatorComponents(
         new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Large).setDivider(true),
       )
       .addTextDisplayComponents(
-        new TextDisplayBuilder().setContent("Bem-vindo à **VØID Systems**, a sua central de tecnologia e automação avançada para Discord!\n\nPara acessar nossos sistemas exclusivos e gerenciar seus bots com total segurança, é necessário realizar a autenticação."),
+        new TextDisplayBuilder().setContent("Bem-vindo à **VØID Optimizations**, a sua central de tecnologia e automação avançada para Discord!\n\nPara acessar nossos sistemas exclusivos e gerenciar seus bots com total segurança, é necessário realizar a autenticação."),
       )
       .addSeparatorComponents(
         new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Large).setDivider(true),
@@ -29,7 +29,7 @@ function buildVerifyComponents() {
         new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Large).setDivider(true),
       )
       .addTextDisplayComponents(
-        new TextDisplayBuilder().setContent("\n## • Segurança e Privacidade\n\nA **VØID Systems** preza pela transparência. Seus dados são processados de forma criptografada e nunca serão compartilhados."),
+        new TextDisplayBuilder().setContent("\n## • Segurança e Privacidade\n\nA **VØID Optimizations** preza pela transparência. Seus dados são processados de forma criptografada e nunca serão compartilhados."),
       )
       .addSeparatorComponents(
         new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Large).setDivider(true),
